@@ -1,34 +1,7 @@
-/**************************************************************************
-LIQUIDCRYSTAL_I2C FOR ESP8266 OR ARDUINO
-***************************************************************************
-AUTHOR: LUCAS MAZIERO - Electrical Engineer
-EMAIL: lucas.mazie.ro@hotmail.com
-CITY: Santa Maria - Rio Grande do Sul - Brasil
-***************************************************************************
-Version: 1.1
-Date:  30/06/2017
-Modified: 02/07/2017
-***************************************************************************
-CODE BASE: https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library
-***************************************************************************
-CHANGELOG:
-* 30/06/2017 (1.0v):
-    -> add degug #if defined(ESP8266)
-    -> Add new function "begin(uint8_t sda, uint8_t scl)"
-    -> Add new function "init()"
-* 02/07/2017 (1.1v):
-    -> Add new function "getBacklight()" get status of backlight 
+#ifndef FDB_LIQUID_CRYSTAL_I2C_H
+#define FDB_LIQUID_CRYSTAL_I2C_H
 
-***************************************************************************
-Copyright(2017) by: Lucas Maziero.
-**************************************************************************/
-
-#ifndef LIQUID_CRYSTAL_I2C_H 
-#define LIQUID_CRYSTAL_I2C_H
-
-#include <Arduino.h>
 #include <inttypes.h>
-#include <Wire.h>
 #include <Print.h>
 
 // commands
@@ -100,18 +73,14 @@ public:
 	/**
 	 * Set the LCD display in the correct begin state, must be called before anything else is done.
 	 */
-#if defined(ESP8266)
-	void begin(uint8_t sda = SDA , uint8_t scl = SCL); // Int with pin default ESP8266 I2C 
-#else
-	void begin(); // Int with pin default ARDUINO 
-#endif
+	void begin();
 
 	 /**
 	  * Remove all the characters currently shown. Next print/write operation will start
 	  * from the first position on LCD display.
 	  */
 	void clear();
-	  
+
 	/**
 	 * Next print/write operation will will start from the first position on the LCD display.
 	 */
@@ -122,22 +91,22 @@ public:
 	  * Also all characters written on the display will return, when the display in enabled again.
 	  */
 	void noDisplay();
-	  
+
 	/**
 	 * Show the characters on the LCD display, this is the normal behaviour. This method should
 	 * only be used after noDisplay() has been used.
-	 */ 
+	 */
 	void display();
 
 	/**
 	 * Do not blink the cursor indicator.
 	 */
 	void noBlink();
-	 
+
 	/**
 	 * Start blinking the cursor indicator.
-	 */ 
-	void blink();	 
+	 */
+	void blink();
 
 	/**
 	 * Do not show a cursor indicator.
@@ -147,7 +116,7 @@ public:
 	/**
  	 * Show a cursor indicator, cursor can blink on not blink. Use the
 	 * methods blink() and noBlink() for changing cursor blink.
-	 */ 
+	 */
 	void cursor();
 
 	void scrollDisplayLeft();
@@ -162,9 +131,9 @@ public:
 	void backlight();
 	bool getBacklight();
 	void autoscroll();
-	void noAutoscroll(); 
+	void noAutoscroll();
 	void createChar(uint8_t, uint8_t[]);
-	void setCursor(uint8_t, uint8_t); 
+	void setCursor(uint8_t, uint8_t);
 	virtual size_t write(uint8_t);
 	void command(uint8_t);
 
@@ -177,9 +146,8 @@ public:
 	void setBacklight(uint8_t new_val);				// alias for backlight() and nobacklight()
 	void load_custom_character(uint8_t char_num, uint8_t *rows);	// alias for createChar()
 	void printstr(const char[]);
-	void init(); 
+
 private:
-	
 	void send(uint8_t, uint8_t);
 	void write4bits(uint8_t);
 	void expanderWrite(uint8_t);
@@ -194,4 +162,4 @@ private:
 	uint8_t _backlightval;
 };
 
-#endif // LIQUID_CRYSTAL_I2C_H
+#endif // FDB_LIQUID_CRYSTAL_I2C_H
